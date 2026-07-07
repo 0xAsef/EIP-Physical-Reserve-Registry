@@ -706,43 +706,6 @@ A metadata URI may point to an external file that can change, disappear, or beco
 
 Custodians, issuers, endorsers, and registry operators may use multisig wallets such as Safe. Implementations should consider signer rotation, compromised keys, timelocks, emergency pauses, and governance procedures.
 
-## Reference Implementation
-
-A reference implementation should include:
-
-- a core reserve registry;
-- allocation, release, and consumption accounting;
-- optional endorsement support;
-- optional metadata/document references;
-- optional ERC-721 receipt mapping;
-- ERC-165 interface detection;
-- access-control hooks for registry operators, custodians, issuers, auditors, and other authorized parties.
-
-The following pseudo-flow illustrates the allocation-only model:
-
-```text
-registerReserve(reserveId, assetId, quantity)
--> state = PENDING
-
-internal verification / endorsement / custody flow
--> state = ACTIVE
-
-allocateReserve(reserveId, instrument, quantity)
--> available decreases
--> allocated to instrument increases
-
-instrument may issue tokens or claims according to its own rules
-
-releaseReserve(reserveId, instrument, quantity)
--> allocated decreases
--> available increases if reserve is ACTIVE
-
-consumeReserve(reserveId, instrument, quantity)
--> allocated decreases
--> consumed increases
--> reserve becomes CONSUMED if fully consumed
-```
-
 ## Suggested Test Cases
 
 Implementations should include tests covering at least the following:
